@@ -1,12 +1,38 @@
-*.class
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+.metadata
+.project
+.pydevproject
+.settings
+.classpath
+.project
+.checkstyle
+.pmd
+.settings/
+orb.db/
+test-output/
+deploy/
+target/
+build/
+bin/
+__pycache__/
+*.pyc
+webclient/
+gwt-unitCache/
+MANIFEST.MF
+*.iws
+*.ipr
+*.iml
+.idea/
+pom.xml.releaseBackup
+release.properties
+infinitest.filters
 
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+lat-core/lat-core-job-engine/lat-core-job-engine.PNG
+lat-core/lat-core-job-engine/lat-core-job-service.PNG
+lat-core/lat-core-client/.gwt/.gwt-log
+*.log
+*.orig
+desktop.ini
+*.ucls
+genericconn.PNG
+dependency-reduced-pom.xml
