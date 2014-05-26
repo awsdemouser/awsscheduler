@@ -11,6 +11,9 @@ import org.testng.annotations.Test;
 
 public class InstanceManagerTest {
 
+	private static final int LESS_THAN_TRESHOLD = 14;
+	private InstanceManager instanceManager;
+
 	@Test(groups = "unit")
 	public void createInstanceManagerAndStartTask() throws Exception {
 		final AwsInstance awsInstance = Mockito.mock(AwsInstance.class);
@@ -20,14 +23,14 @@ public class InstanceManagerTest {
 
 	@Test(groups = "unit")
 	public void addTaskToQueue() throws Exception {
-		final InstanceManager instanceManager = new InstanceManager(1, new AwsInstance(), "task1", null);
+		instanceManager = new InstanceManager(1, new AwsInstance(), "task1", null);
 		assertTrue(instanceManager.addTask("task1"));
 		assertFalse(instanceManager.addTask("task2"));
 	}
 
 	@Test(groups = "unit")
 	public void startNextTaskFromQueueWhenInstanceFinishesExecution() throws Exception {
-		final InstanceManager instanceManager = new InstanceManager(2, new AwsInstance(), "task1", null);
+		instanceManager = new InstanceManager(2, new AwsInstance(), "task1", null);
 		instanceManager.addTask("task1");
 		instanceManager.addTask("task2");
 		assertFalse(instanceManager.addTask("task3"));
@@ -38,10 +41,11 @@ public class InstanceManagerTest {
 	@Test(groups = "unit")
 	public void killInstanceWhenQueueIsEmptyAndRemainingTimeUnderLimit() throws Exception {
 		final AwsInstance mockAwsInstance = Mockito.mock(AwsInstance.class);
-		when(mockAwsInstance.getRemainingTime()).thenReturn(14);
+		when(mockAwsInstance.getRemainingTime()).thenReturn(LESS_THAN_TRESHOLD);
 		final InstanceKiller mockInstanceKiller = Mockito.mock(InstanceKiller.class);
-		final InstanceManager instanceManager = new InstanceManager(2, mockAwsInstance, "task1", mockInstanceKiller);
+		instanceManager = new InstanceManager(2, mockAwsInstance, "task1", mockInstanceKiller);
 		instanceManager.taskFinished();
+
 		verify(mockAwsInstance).destroy();
 		verify(mockInstanceKiller).removeInstance(instanceManager);
 
